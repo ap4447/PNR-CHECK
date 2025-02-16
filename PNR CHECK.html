@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethiopian Airlines PNR Check</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .header {
+      background-color: #0066cc;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-container {
+      margin-bottom: 20px;
+    }
+    .form-container input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .form-container button {
+      background-color: #0066cc;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .form-container button:hover {
+      background-color: #005bb5;
+    }
+    .details-container {
+      margin-top: 20px;
+      display: none; /* Hidden by default */
+    }
+    .details-container p {
+      margin: 10px 0;
+    }
+    strong {
+      color: #333;
+    }
+    .booking-status {
+      color: green;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .booking-status span {
+      font-size: 36px;
+    }
+    .airline-info {
+      margin-top: 20px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <div class="header">
+    <h1>Ethiopian Airlines PNR Check</h1>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- PNR Check Form -->
+    <div class="form-container">
+      <label for="pnr">PNR Number:</label>
+      <input type="text" id="pnr" placeholder="Enter PNR">
+      <label for="first-name">First Name:</label>
+      <input type="text" id="first-name" placeholder="Enter First Name">
+      <label for="last-name">Last Name:</label>
+      <input type="text" id="last-name" placeholder="Enter Last Name">
+      <button onclick="retrieveDetails()">Check PNR</button>
+    </div>
+
+    <!-- Flight Details Container -->
+    <div id="details-container" class="details-container">
+      <h2>Flight Booking Details</h2>
+      <p><strong>Passenger Name:</strong> <span id="passenger-name"></span></p>
+      <p><strong>PNR:</strong> <span id="pnr-detail"></span></p>
+      <p><strong>Flight Number:</strong> <span id="flight-number"></span></p>
+      <p><strong>Departure City:</strong> <span id="departure-city"></span></p>
+      <p><strong>Arrival City:</strong> <span id="arrival-city"></span></p>
+      <p><strong>Departure Date:</strong> <span id="departure-date"></span></p>
+      <p><strong>Arrival Date:</strong> <span id="arrival-date"></span></p>
+      <p><strong>Airline Name:</strong> <span id="airline-name"></span></p>
+      <p><strong>Seat Number:</strong> <span id="seat-number"></span></p>
+      <p><strong>Passport Number:</strong> <span id="passport-number"></span></p>
+      <p><strong>Email:</strong> <span id="email"></span></p>
+      <p><strong>Phone Number:</strong> <span id="phone-number"></span></p>
+
+      <!-- Booking Status -->
+      <div class="booking-status">
+        <span>✓</span> Booking Status: <span>Confirmed</span>
+      </div>
+      <p><strong>Booked By:</strong> Ethiopian Airlines Office, Lilongwe, Malawi</p>
+
+      <!-- Airline Contact Information -->
+      <div class="airline-info">
+        <p><strong>Ethiopian Airlines Office:</strong></p>
+        <p>ADL House, City Centre</p>
+        <p>P.O. Box 1191, Lilongwe, Malawi</p>
+        <p>Telephone: +265 881135555 / 0888883141</p>
+        <p>Email: info@ethiopianairlines.com</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample booking data for two PNRs
+    const bookingData = {
+      MM2CR: {
+        passengerName: "Rakesh Kumar Baranwal",
+        pnr: "MM2CR",
+        flightNumber: "ET641",
+        departureCity: "Mumbai",
+        arrivalCity: "Addis Ababa",
+        departureDate: "2025-03-10",
+        arrivalDate: "2025-03-10",
+        airlineName: "Ethiopian Airlines",
+        seatNumber: "A16",
+        passportNumber: "P3351725",
+        email: "raksaddy@gmail.com",
+        phoneNumber: "+91 7485949918",
+      },
+      MM3BQ: {
+        passengerName: "Rakesh Kumar Baranwal",
+        pnr: "MM3BQ",
+        flightNumber: "ET877",
+        departureCity: "Addis Ababa",
+        arrivalCity: "Lilongwe",
+        departureDate: "2025-03-11",
+        arrivalDate: "2025-03-11",
+        airlineName: "Ethiopian Airlines",
+        seatNumber: "B12",
+        passportNumber: "P3351725",
+        email: "raksaddy@gmail.com",
+        phoneNumber: "+91 7485949918",
+      },
+    };
+
+    // Function to retrieve details
+    function retrieveDetails() {
+      const pnr = document.getElementById("pnr").value.toUpperCase();
+      const firstName = document.getElementById("first-name").value.trim();
+      const lastName = document.getElementById("last-name").value.trim();
+      const fullName = `${firstName} ${lastName}`.trim(); // Combine first and last name
+      const detailsContainer = document.getElementById("details-container");
+
+      // Check if PNR exists and name matches
+      if (
+        bookingData[pnr] &&
+        bookingData[pnr].passengerName.toLowerCase() === fullName.toLowerCase()
+      ) {
+        // Display details
+        document.getElementById("passenger-name").textContent = bookingData[pnr].passengerName;
+        document.getElementById("pnr-detail").textContent = bookingData[pnr].pnr;
+        document.getElementById("flight-number").textContent = bookingData[pnr].flightNumber;
+        document.getElementById("departure-city").textContent = bookingData[pnr].departureCity;
+        document.getElementById("arrival-city").textContent = bookingData[pnr].arrivalCity;
+        document.getElementById("departure-date").textContent = bookingData[pnr].departureDate;
+        document.getElementById("arrival-date").textContent = bookingData[pnr].arrivalDate;
+        document.getElementById("airline-name").textContent = bookingData[pnr].airlineName;
+        document.getElementById("seat-number").textContent = bookingData[pnr].seatNumber;
+        document.getElementById("passport-number").textContent = bookingData[pnr].passportNumber;
+        document.getElementById("email").textContent = bookingData[pnr].email;
+        document.getElementById("phone-number").textContent = bookingData[pnr].phoneNumber;
+
+        // Show the details container
+        detailsContainer.style.display = "block";
+      } else {
+        alert("Invalid PNR or Name. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
